@@ -1,0 +1,21 @@
+server:
+  port: 8761
+  
+eureka:
+  client:
+    register-with-eureka: false
+    fetch-registry: false
+
+zuul:
+  prefix: /api
+  routes:
+    movie-catalog-service:
+      path: /movie-catalog-service/**
+      url: http://localhost:8081
+    movie-info-service:
+      path: /movie-info-service/**
+      url: http://localhost:8082
+    rating-data-service:
+      path: /rating-data-service/**
+      url: http://localhost:8083
+
