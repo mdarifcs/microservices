@@ -1,6 +1,9 @@
 server:
   port: 8761
   
+logging:
+  file: D:/logs/microservices/discovery-server.log
+  
 eureka:
   client:
     register-with-eureka: false
@@ -18,4 +21,5 @@ zuul:
     rating-data-service:
       path: /rating-data-service/**
       url: http://localhost:8083
+ 
 
