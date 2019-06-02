@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.reactive.function.client.WebClient;
 
+import com.example.feignproxy.MovieInfoServiceProxy;
+import com.example.feignproxy.RatingDataServiceProxy;
 import com.example.models.CatalogItem;
 import com.example.models.Movie;
 import com.example.models.UserRating;
@@ -37,6 +39,12 @@ public class MovieCatalogResource {
 	@Value("${movie.info.service.url}")
 	private String movieInfoServiceUrl;
 	
+	@Autowired
+	private RatingDataServiceProxy ratingDataServiceProxy;
+	
+	@Autowired
+	private MovieInfoServiceProxy movieInfoServiceProxy;
+	
 	private static final Logger LOG = LoggerFactory.getLogger(MovieCatalogResource.class);
 
 	@RequestMapping("/{userId}")
@@ -45,11 +53,24 @@ public class MovieCatalogResource {
 		LOG.info("starting movie-catalog-service");
 		LOG.info(discoveryClient.getServices().toString());
 		LOG.info(discoveryClient.getInstances("rating-data-service").toString());
-				
-		UserRating ratings = restTemplate.getForObject(ratingDataServiceUrl+userId, UserRating.class);
+		
+		//restClient
+		//UserRating ratings = restTemplate.getForObject(ratingDataServiceUrl+userId, UserRating.class);
+		
+		//feign client
+		//UserRating ratings = ratingDataServiceProxy.getUserRating(userId);
+		
+		//webClient
+		UserRating ratings = webClientBuilder.build()
+								.get()
+								.uri(ratingDataServiceUrl+userId)
+								.retrieve()
+								.bodyToMono(UserRating.class)
+								.block();
 		
 		return ratings.getUserRating().stream().map(rating -> {
-			Movie movie = restTemplate.getForObject(movieInfoServiceUrl+rating.getMovieId(), Movie.class);
+			//Movie movie = restTemplate.getForObject(movieInfoServiceUrl+rating.getMovieId(), Movie.class);
+			Movie movie = movieInfoServiceProxy.getMovie(rating.getMovieId());
 			return new CatalogItem(movie.getName(), "Desc", rating.getRating());
 			})
 			.collect(Collectors.toList());
