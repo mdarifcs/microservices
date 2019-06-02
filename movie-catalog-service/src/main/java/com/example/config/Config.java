@@ -14,11 +14,19 @@ public class Config {
 	public RestTemplate getRestTemplate() {
 		return new RestTemplate();
 	}
-	
+
 	@Bean
 	@LoadBalanced
 	public WebClient.Builder getWebClient() {
 		return WebClient.builder();
 	}
 	
+	/*
+	 * @Bean(name = "hystrixRegistrationBean") public ServletRegistrationBean
+	 * servletRegistrationBean() { ServletRegistrationBean registration = new
+	 * ServletRegistrationBean( new HystrixMetricsStreamServlet(),
+	 * "/hystrix.stream"); registration.setName("hystrixServlet");
+	 * registration.setLoadOnStartup(1); return registration; }
+	 */
+
 }
