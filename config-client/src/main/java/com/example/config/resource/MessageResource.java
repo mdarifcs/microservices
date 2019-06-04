@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class MessageResource {
 
-	@Value("${message}")
+	@Value("${message:default}")
 	private String message;
 	
 	@GetMapping("/message")
