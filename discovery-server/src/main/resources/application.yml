@@ -1,8 +1,8 @@
+spring:
+  application:
+    name: discovery-server
 server:
   port: 8761
-  
-logging:
-  file: D:/logs/microservices/discovery-server.log
   
 eureka:
   client:
@@ -10,7 +10,7 @@ eureka:
     fetch-registry: false
 
 zuul:
-  prefix: /api
+  prefix: /discovery-api
   routes:
     movie-catalog-service:
       path: /movie-catalog-service/**

@@ -1,0 +1,32 @@
+spring:
+  application:
+    name: zuul-service
+server:
+  port: 8084
+
+eureka:
+  client:
+    fetch-registry: true
+    register-with-eureka: true
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+  instance:
+    hostname: localhost
+
+zuul:
+  prefix: /zuul-api
+  routes:
+    movie-catalog-service:
+      path: /movie-catalog-service/**
+      service-id: movie-catalog-service
+    movie-info-service:
+      path: /movie-info-service/**
+      service-id: movie-info-service
+    rating-data-service:
+      path: /rating-data-service/**
+      service-id: rating-data-service
+      
+
+    
+
+
