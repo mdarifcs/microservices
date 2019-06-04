@@ -25,8 +25,3 @@ zuul:
     rating-data-service:
       path: /rating-data-service/**
       service-id: rating-data-service
-      
-
-    
-
-
