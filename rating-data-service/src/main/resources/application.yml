@@ -2,7 +2,7 @@ spring:
   application:
     name: rating-data-service
 server:
-  port: 8083
+  port: 8283
 
 eureka:
   client:

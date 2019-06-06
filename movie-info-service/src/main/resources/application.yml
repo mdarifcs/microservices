@@ -2,7 +2,7 @@ spring:
   application:
     name: movie-info-service
 server:
-  port: 8082
+  port: 8282
 
 eureka:
   client:
